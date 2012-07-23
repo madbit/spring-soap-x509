@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions 
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:tns="http://www.madbit.org/DoubleIt/" 
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns:wsp="http://www.w3.org/ns/ws-policy" 
+xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:fi="http://java.sun.com/xml/ns/wsit/2006/09/policy/fastinfoset/service" xmlns:tcp="http://java.sun.com/xml/ns/wsit/2006/09/policy/soaptcp/service" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:sc="http://schemas.sun.com/2006/03/wss/server" xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy"
+name="DoubleIt" 
+targetNamespace="http://www.madbit.org/DoubleIt/">
+  
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.madbit.org/DoubleIt/">
+      <xsd:element name="DoubleItRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="numberToDouble" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="DoubleItResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="doubledNumber" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="DoubleItIn">
+    <wsdl:part element="tns:DoubleItRequest" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="DoubleItOut">
+    <wsdl:part element="tns:DoubleItResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="DoubleItPortType">
+    <wsdl:operation name="doubleIt">
+      <wsdl:input message="tns:DoubleItIn"/>
+      <wsdl:output message="tns:DoubleItOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="DoubleItBinding" type="tns:DoubleItPortType">
+  	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="doubleIt">
+      <soap:operation soapAction="http://localhost:8080/spring-soap-x509/services/doubleIt"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="DoubleItService">
+    <wsdl:port binding="tns:DoubleItBinding" name="DoubleItPort">
+      <soap:address location="http://www.madbit.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
